@@ -1,4 +1,8 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 #include <Stepper.h>
+
+LiquidCrystal_I2C lcd(0x27,16,2);
 
 // Defines the number of steps per rotation
 Stepper myStepper = Stepper(1000, 13,12,11,10);
@@ -15,12 +19,20 @@ float status1 = 0;
 
 void setup() {
   Serial.begin(115200);
+
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
+
+  lcd.begin(16,2);
+  lcd.init();
+  lcd.backlight();
 }
 
 
 void loop() {
+  lcd.setCursor(0,0);
+  lcd.print("Enter your code:");
+
   if (lock_1 == false && lock_1_pass == "1A56B") {
     // turn on the light
     digitalWrite(2, HIGH);
